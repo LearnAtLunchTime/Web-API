@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="scripts/jquery-2.2.3.js"></script>
+
+
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+
+    <script>
+
+        $(document).ready(function () {
+
+            var uri = "api/CoreItems";
+
+            LoadCoreItems(uri);
+
+            $('#buttonSearch').on("click", function () {
+
+                uri = "api/CoreItems/" + $('#SearchItemNumber')[0].value;
+
+                LoadCoreItems(uri);
+            });
+
+
+            $('#mainDiv').on('click','.close', function () {
+                $('#CoreItemMessage').empty().removeClass();
+            });
+
+        });
+
+        function LoadCoreItems(uri) {
+            //debugger;
+            $.ajax(uri)
+               .done(function (data) {
+                   var tbody;
+
+                   // when list of of item
+                   if (data.length >= 0) {
+                       $("#CoreItemsTable > tbody").html("");
+                       $.each(data, function (index, item) {
+                           tbody += '<tr><td>' + data[index].ItemNumber + '</td><td>' + data[index].ItemDescription;
+
+
+                       });
+
+                       $('#CoreItemsTable').append(tbody);
+                   }
+                       // when single item
+                   else {
+                       $("#CoreItemsTable > tbody").html("");
+                       tbody = '<tr><td>' + data.ItemNumber + '</td><td>' + data.ItemDescription;
+                       $('#CoreItemsTable').append(tbody);
+
+                       $('#CoreItemMessage').addClass('alert alert-success').html("Item found")
+                    .append("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
+                   }
+
+                   
+               })
+            .error(function (request, status, error) {
+
+                $('#CoreItemMessage').addClass('alert alert-danger').html(JSON.parse(request.responseText))
+                    .append("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
+
+            });
+            ;
+            
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container" id="mainDiv" style="margin-top:100px;">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Item Number</span>
+                    <input type="text" class="form-control" id="SearchItemNumber" placeholder="Item Number" aria-describedby="basic-addon1">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="buttonSearch" type="button">Search</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3" style="margin-top:5px;margin-bottom:5px;">
+                <div id="CoreItemMessage">
+                    
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3">
+                <table id="CoreItemsTable" class="table table-bordered">
+                    <tr>
+                        <th>ItemNumber</th>
+                        <th>ItemDescription</th>
+                    </tr>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
