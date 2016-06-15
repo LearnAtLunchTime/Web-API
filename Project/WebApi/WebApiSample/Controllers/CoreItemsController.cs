@@ -14,25 +14,25 @@ namespace WebApplication1.Controllers
         public CoreItemsController() {
             coreItemData = new CoreEntities();
         }
-        //public HttpResponseMessage Get(string itemNumber)
-        //{
-        //    CoreItem cItem;
-        //    cItem = coreItemData.CoreItems.Where(x => x.ItemNumber == itemNumber).FirstOrDefault();
-        //    if(cItem!=null)
-        //        return Request.CreateResponse(HttpStatusCode.OK, cItem);
-        //    else
-        //        return Request.CreateResponse(HttpStatusCode.NotFound, "Item not found in system with Item Number:" + itemNumber);
-        //}
-
-        public IHttpActionResult Get(string itemNumber)
+        public HttpResponseMessage Get(string itemNumber)
         {
             CoreItem cItem;
             cItem = coreItemData.CoreItems.Where(x => x.ItemNumber == itemNumber).FirstOrDefault();
             if (cItem != null)
-                return Ok(cItem);
+                return Request.CreateResponse(HttpStatusCode.OK, cItem);
             else
-                return NotFound();
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Item not found in system with Item Number:" + itemNumber);
         }
+
+        //public IHttpActionResult Get(string itemNumber)
+        //{
+        //    CoreItem cItem;
+        //    cItem = coreItemData.CoreItems.Where(x => x.ItemNumber == itemNumber).FirstOrDefault();
+        //    if (cItem != null)
+        //        return Ok(cItem);
+        //    else
+        //        return NotFound();
+        //}
 
         public IEnumerable<CoreItem> Get()
         {
