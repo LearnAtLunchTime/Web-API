@@ -29,6 +29,11 @@
         });
 
         function LoadCoreItems(uri) {
+
+            //initialize:
+            $('#CoreItemMessage').removeClass().html("");
+            $("#CoreItemsTable > tbody").html("");
+
             //debugger;
             $.ajax(uri)
                .done(function (data) {
@@ -36,9 +41,9 @@
 
                    // when list of of item
                    if (data.length >= 0) {
-                       $("#CoreItemsTable > tbody").html("");
+                       
                        $.each(data, function (index, item) {
-                           tbody += '<tr><td>' + data[index].ItemNumber + '</td><td>' + data[index].ItemDescription + '</td><td>' + data[index].VendorCode + '</td><td>' + data[index].Price + '</td><td>' + data[index].DeliveryCharge + '</td><td>' + data[index].CostPrice + '</td><td class="text-right">' + data[index].Grade + '</td>';
+                           tbody += '<tr><td>' + data[index].ItemNumber + '</td><td>' + data[index].ItemDescription + '</td><td>' + data[index].VendorCode + '</td><td class="text-right">' + FormatCurrency(data[index].Price) + '</td><td class="text-right">' + FormatCurrency(data[index].DeliveryCharge) + '</td><td class="text-right">' + FormatCurrency(data[index].CostPrice) + '</td><td class="text-right">' + data[index].Grade + '</td>';
 
 
                        });
@@ -48,7 +53,7 @@
                        // when single item
                    else {
                        $("#CoreItemsTable > tbody").html("");
-                       tbody = '<tr><td>' + data.ItemNumber + '</td><td>' + data.ItemDescription + '</td><td>' + data.VendorCode + '</td><td>' + data.Price + '</td><td>' + data.DeliveryCharge + '</td><td>' + data.CostPrice + '</td><td class="text-right">' + data.Grade + '</td>';
+                       tbody = '<tr><td>' + data.ItemNumber + '</td><td>' + data.ItemDescription + '</td><td>' + data.VendorCode + '</td><td class="text-right">' + FormatCurrency(data.Price) + '</td><td class="text-right">' + FormatCurrency(data.DeliveryCharge) + '</td><td class="text-right">' + FormatCurrency(data.CostPrice) + '</td><td class="text-right">' + data.Grade + '</td>';
                        $('#CoreItemsTable').append(tbody);
 
                        $('#CoreItemMessage').addClass('alert alert-success').html("Item found")
@@ -67,13 +72,20 @@
 
         }
 
+        function FormatCurrency(val)
+        {
+            if (val == undefined || val == null)
+                return "$" + parseFloat("0").toFixed(2);
+            else
+                return "$" + parseFloat(val).toFixed(2);
+        }
     </script>
 </head>
 <body>
     <div class="container" id="mainDiv" style="margin-top:100px;">
         <div class="row">
 
-            <div class="col-md-offset-3 col-md-4 col-md-offset-5">
+            <div class="col-md-offset-1 col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon label-primary" id="basic-addon1"><span class="bg-primary"><strong>Item Number</strong></span> </span>
                     <input type="text" class="form-control" id="SearchItemNumber" placeholder="Item Number" aria-describedby="basic-addon1">
@@ -85,12 +97,12 @@
         </div>
         <div class="row">
             
-            <div class="col-md-offset-3 col-md-6 col-md-offset-3" style="margin-top:5px;margin-bottom:5px;">
+            <div class="col-md-offset-1 col-md-10 col-md-offset-1" style="margin-top:5px;margin-bottom:5px;">
                 <div id="CoreItemMessage">
 
                 </div>
             </div>
-            <div class="col-md-offset-3 col-md-6 col-md-offset-3">
+            <div class="col-md-offset-1 col-md-10 col-md-offset-1">
                 <table id="CoreItemsTable" class="table table-bordered table-striped">
                     <thead class="">
                         <tr>
