@@ -5,9 +5,7 @@
     <meta charset="utf-8" />
     <script src="scripts/jquery-2.2.3.js"></script>
 
-
     <link href="Content/bootstrap.css" rel="stylesheet" />
-
     <script>
 
         $(document).ready(function () {
@@ -24,7 +22,7 @@
             });
 
 
-            $('#mainDiv').on('click','.close', function () {
+            $('#mainDiv').on('click', '.close', function () {
                 $('#CoreItemMessage').empty().removeClass();
             });
 
@@ -33,14 +31,14 @@
         function LoadCoreItems(uri) {
             //debugger;
             $.ajax(uri)
-               .done(function(data) {
+               .done(function (data) {
                    var tbody;
 
                    // when list of of item
                    if (data.length >= 0) {
                        $("#CoreItemsTable > tbody").html("");
                        $.each(data, function (index, item) {
-                           tbody += '<tr><td>' + data[index].ItemNumber + '</td><td>' + data[index].ItemDescription;
+                           tbody += '<tr><td>' + data[index].ItemNumber + '</td><td>' + data[index].ItemDescription + '</td><td>' + data[index].VendorCode + '</td><td>' + data[index].Price + '</td><td>' + data[index].DeliveryCharge + '</td><td>' + data[index].CostPrice + '</td><td class="text-right">' + data[index].Grade + '</td>';
 
 
                        });
@@ -50,14 +48,14 @@
                        // when single item
                    else {
                        $("#CoreItemsTable > tbody").html("");
-                       tbody = '<tr><td>' + data.ItemNumber + '</td><td>' + data.ItemDescription;
+                       tbody = '<tr><td>' + data.ItemNumber + '</td><td>' + data.ItemDescription + '</td><td>' + data.VendorCode + '</td><td>' + data.Price + '</td><td>' + data.DeliveryCharge + '</td><td>' + data.CostPrice + '</td><td class="text-right">' + data.Grade + '</td>';
                        $('#CoreItemsTable').append(tbody);
 
                        $('#CoreItemMessage').addClass('alert alert-success').html("Item found")
                     .append("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
                    }
 
-                   
+
                })
             .error(function (request, status, error) {
 
@@ -65,8 +63,8 @@
                     .append("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
 
             });
-            
-            
+
+
         }
 
     </script>
@@ -74,33 +72,41 @@
 <body>
     <div class="container" id="mainDiv" style="margin-top:100px;">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6 col-md-offset-3">
+
+            <div class="col-md-offset-3 col-md-4 col-md-offset-5">
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">Item Number</span>
+                    <span class="input-group-addon label-primary" id="basic-addon1"><span class="bg-primary"><strong>Item Number</strong></span> </span>
                     <input type="text" class="form-control" id="SearchItemNumber" placeholder="Item Number" aria-describedby="basic-addon1">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" id="buttonSearch" type="button">Search</button>
+                        <button class="btn btn-primary" id="buttonSearch" type="button"><span class="glyphicon glyphicon-search small"></span> <strong>Search</strong></button>
                     </span>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            
             <div class="col-md-offset-3 col-md-6 col-md-offset-3" style="margin-top:5px;margin-bottom:5px;">
                 <div id="CoreItemMessage">
-                    
+
                 </div>
             </div>
             <div class="col-md-offset-3 col-md-6 col-md-offset-3">
-                <table id="CoreItemsTable" class="table table-bordered">
-                    <tr>
-                        <th>ItemNumber</th>
-                        <th>ItemDescription</th>
-                    </tr>
+                <table id="CoreItemsTable" class="table table-bordered table-striped">
+                    <thead class="">
+                        <tr>
+                            <th>Item#</th>
+                            <th>Description</th>
+                            <th>Vendor#</th>
+                            <th>Price</th>
+                            <th>Delivery Charge</th>
+                            <th>Cost Price</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
                     <tbody></tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
-
 </body>
 </html>
