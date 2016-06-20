@@ -4,15 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using WebApplication1.DataLayer;
 
 namespace WebApplication1.Controllers
 {
     public class CoreItemsController : ApiController
     {
-        CoreEntities coreItemData;
+        DataSampleEntities coreItemData;
         public CoreItemsController() {
-            coreItemData = new CoreEntities();
+            coreItemData = new DataSampleEntities();
         }
         public HttpResponseMessage Get(string itemNumber)
         {
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
         public IEnumerable<CoreItem> Get()
         {
 
-            return coreItemData.CoreItems.Where(x=> x.CopyrightYear == "2016").ToList(); 
+            return coreItemData.CoreItems.ToList(); 
         }
 
         
